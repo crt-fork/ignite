@@ -8,10 +8,13 @@ RUN apt-get update -y && \
 	bc                    \
 	bison                 \
 	build-essential       \
+	wireguard             \
+	wireguard-tools       \
 	ccache                \
 	flex                  \
 	${GCC_VERSION}        \
 	git                   \
+	dkms                  \
 	kmod                  \
 	libelf-dev            \
 	libncurses-dev        \
