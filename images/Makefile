@@ -74,6 +74,7 @@ ifeq ($(IS_MANIFEST_LIST),0)
 			--build-arg RELEASE \
 			--build-arg BINARY_REF \
 			--build-arg GOARCH \
+			--build-arg DIGEST \
 			-f -\
 			-t $(FULL_IMAGE_NAME) \
 			${WHAT}
@@ -84,7 +85,8 @@ else
 	sed "s|QEMUARCH|$(QEMUARCH)|g;s|DOCKERARCH|$(DOCKERARCH)|g" ${WHAT}/Dockerfile > $(BUILD_TMPDIR)/Dockerfile
 
 ifeq ($(GOARCH),amd64)
-	sed "/COPY qemu/d" -i $(BUILD_TMPDIR)/Dockerfile
+	sed "/COPY qemu/d" $(BUILD_TMPDIR)/Dockerfile > $(BUILD_TMPDIR)/Dockerfile.new
+	mv $(BUILD_TMPDIR)/Dockerfile.new $(BUILD_TMPDIR)/Dockerfile
 else
 	$(MAKE) -C .. qemu
 	cp ../bin/$(GOARCH)/qemu-$(QEMUARCH)-static $(BUILD_TMPDIR)
@@ -94,6 +96,7 @@ endif
 		--build-arg RELEASE \
 		--build-arg BINARY_REF \
 		--build-arg GOARCH \
+		--build-arg DIGEST \
 		-t $(FULL_IMAGE_NAME)$(ARCH_TAG) \
 		$(BUILD_TMPDIR)
 	find $(BUILD_TMPDIR)/ -mindepth 1 -delete
@@ -142,7 +145,13 @@ push-all: build-all
 	$(MAKE) OP=push build-all
 
 
-build-all: build-alpine build-amazon-kernel build-amazonlinux build-centos build-k3s build-kubeadm build-opensuse build-ubuntu
+build-all: build-almalinux build-alpine build-amazon-kernel build-amazonlinux build-centos build-k3s build-kubeadm build-opensuse build-rockylinux build-ubuntu
+
+build-almalinux:
+	$(MAKE) ${OP} WHAT=almalinux      RELEASE=8                                                        IS_MANIFEST_LIST=1  GOARCH=amd64
+	$(MAKE) ${OP} WHAT=almalinux      RELEASE=8                                                        IS_MANIFEST_LIST=1  GOARCH=arm64
+	$(MAKE) ${OP} WHAT=almalinux      RELEASE=9                                        IS_LATEST=true  IS_MANIFEST_LIST=1  GOARCH=amd64
+	$(MAKE) ${OP} WHAT=almalinux      RELEASE=9                                        IS_LATEST=true  IS_MANIFEST_LIST=1  GOARCH=arm64
 
 build-alpine:
 ifeq ($(OP),build)
@@ -172,6 +181,12 @@ build-kubeadm:
 build-opensuse:
 	$(MAKE) ${OP} WHAT=opensuse       RELEASE=leap                                     IS_LATEST=true
 	$(MAKE) ${OP} WHAT=opensuse       RELEASE=tumbleweed
+
+build-rockylinux:
+	$(MAKE) ${OP} WHAT=rockylinux      RELEASE=8                                                       IS_MANIFEST_LIST=1  GOARCH=amd64
+	$(MAKE) ${OP} WHAT=rockylinux      RELEASE=8                                                       IS_MANIFEST_LIST=1  GOARCH=arm64
+	$(MAKE) ${OP} WHAT=rockylinux      RELEASE=9                                       IS_LATEST=true  IS_MANIFEST_LIST=1  GOARCH=amd64
+	$(MAKE) ${OP} WHAT=rockylinux      RELEASE=9                                       IS_LATEST=true  IS_MANIFEST_LIST=1  GOARCH=arm64
 
 build-ubuntu:
 	$(MAKE) ${OP} WHAT=ubuntu         RELEASE=16.04                                                    IS_MANIFEST_LIST=0

@@ -38,7 +38,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/nightlyone/lockfile v1.0.0
 	github.com/opencontainers/go-digest v1.0.0
-	github.com/opencontainers/image-spec v1.0.1
+	github.com/opencontainers/image-spec v1.0.2
 	github.com/opencontainers/runtime-spec v1.0.3-0.20200929063507-e6143ca7d51d
 	github.com/otiai10/copy v1.1.1
 	github.com/pkg/errors v0.9.1
@@ -51,10 +51,10 @@ require (
 	github.com/vishvananda/netlink v1.1.0
 	github.com/weaveworks/libgitops v0.0.0-20200611103311-2c871bbbbf0c
 	go.opencensus.io v0.23.0 // indirect
-	golang.org/x/crypto v0.0.0-20201002170205-7f63de1d35b0
-	golang.org/x/net v0.0.0-20210415231046-e915ea6b2b7d // indirect
-	golang.org/x/sys v0.0.0-20210510120138-977fb7262007
-	golang.org/x/tools v0.1.5 // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+	golang.org/x/sys v0.0.0-20211019181941-9d821ace8654
+	golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1
+	golang.org/x/tools v0.1.10 // indirect
 	google.golang.org/genproto v0.0.0-20210416161957-9910b6c460de // indirect
 	google.golang.org/grpc v1.37.0 // indirect
 	gotest.tools v2.2.0+incompatible

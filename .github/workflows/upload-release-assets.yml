@@ -20,7 +20,7 @@ jobs:
         with:
           ref: ${{ env.REL_TAG }}
       - name: Login to container registry
-        uses: docker/login-action@v1.10.0
+        uses: docker/login-action@v1.14.1
         with:
           registry: docker.io
           username: weaveworksigniteci
@@ -35,7 +35,7 @@ jobs:
           cp bin/releases/${{ env.REL_TAG }}/arm64/ignite release/ignite-arm64
           cp bin/releases/${{ env.REL_TAG }}/arm64/ignited release/ignited-arm64
       - name: Upload assets
-        uses: svenstaro/upload-release-action@v2
+        uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.REL_TAG }}
